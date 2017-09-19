@@ -1,0 +1,98 @@
+---
+title: "up02-Lindsay-Dahlen.Rmd"
+author: "Lindsay Dahlen"
+date: "September 11, 2017"
+output: html_document
+---
+```{r}
+load("nba2017-salary-points.RData")
+ls()
+```
+
+```{r}
+mode(experience)
+# mode(github)
+mode(player)
+mode(points1)
+mode(points2)
+mode(points3)
+mode(position)
+# mode(repo)
+mode(salary)
+mode(team)
+
+
+
+length(experience)
+length(github)
+length(player)
+length(points)
+length(points1)
+length(points2)
+length(points3)
+length(position)
+length(repo)
+length(salary)
+length(team)
+       
+```
+```{r}
+summary(points1)
+summary(points2)
+summary(points3)
+summary(salary)
+summary(team)
+```
+
+```{r}
+mean(points1)
+mean(points2)
+mean(points3)
+mean(salary)
+
+sd(points1)
+sd(points2)
+sd(points3)
+sd(salary)
+
+min(points1)
+min(points2)
+min(points3)
+min(salary)
+
+max(points1)
+max(points2)
+max(points3)
+max(salary)
+
+median(points1)
+median(points2)
+median(points3)
+median(salary)
+
+#quartile??
+```
+
+# What are the typical values in each vector?
+# What's the spread in each vector?
+
+```{r}
+hist(points1)
+boxplot(points1)
+
+hist(points2)
+boxplot(points2)
+
+hist(points3)
+boxplot(points3)
+
+hist(salary)
+boxplot(salary)
+```
+```{r}
+#density polygon
+```
+
+------------
+
+
