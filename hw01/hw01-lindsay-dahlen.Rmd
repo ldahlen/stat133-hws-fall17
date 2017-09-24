@@ -1,0 +1,200 @@
+---
+title: "hw01-lindsay-dahlen.Rmd"
+author: "Lindsay Dahlen"
+date: "September 20, 2017"
+output: github_document
+---
+#HW 01
+```{r}
+load("data/nba2017-salary-points.RData")
+ls()
+```
+
+## 1)
+```{r}
+salarymil <- salary/1000000
+salarymiltwo <- round(salarymil, digits = 2)
+salarymiltwo
+```
+```{r}
+# Experience 
+experienceN <- replace(experience, experience == "R", 0)
+experience_integer <- as.integer(experienceN)
+class(experience_integer)
+experienceN
+```
+```{r}
+# Position
+fposition <- factor(position)
+fposition
+levels(fposition) <- c('center', 'power_fwd', 'point_guard', 'small_fwd', 'shoot_guard')
+fposition
+```
+```{r}
+# Calculate frequencies
+table(fposition)
+```
+## 2)
+```{r}
+# Plot
+plot(points, salary/1000000, pch = 15, col = "chartreuse", cex = 1, xlab = "points", ylab = "salary (in millions of dollars", main = "Points vs. Salary")
+```
+ ### This scatterplot indicates that more points scored correlates with a higher salary, although there are exceptions to this. For example, some players that score many points have similar salaries to players that score fewer points, and vice versa.
+ 
+ ## 3)
+ 
+```{r}
+# Finding correlation
+n <- 441      # There are 441 players
+n
+# Mean
+mean_points <- sum(points)/441
+mean_points
+
+mean_salarymiltwo <- sum(salarymiltwo)/441
+mean_salarymiltwo
+```
+```{r}
+# var(X)
+var_points1 <- (points - mean_points)
+var_points2 <- sum(var_points1^2)
+var_points <- (1/440)*var_points2
+var_points
+
+# var(Y)
+var_salarymiltwo1 <- (salarymiltwo - mean_salarymiltwo)
+var_salarymiltwo2 <- sum(var_salarymiltwo1^2)
+var_salarymiltwo <- (1/440)*var_salarymiltwo2
+var_salarymiltwo
+```
+```{r}
+# Standard deviation of X
+sd_points <- sqrt(var_points)
+sd_points
+
+# Standard deviation of Y
+sd_salarymiltwo <- sqrt(var_salarymiltwo)
+sd_salarymiltwo
+```
+```{r}
+# Covariance between X and Y
+cov_p_s_1 <- (points - mean_points)*(salarymiltwo - mean_salarymiltwo)
+cov_p_s_2 <- sum(cov_p_s_1)
+cov_p_s <- (1/440)*cov_p_s_2
+cov_p_s
+```
+```{r}
+# Correlation
+cor_points_salarymiltwo <- (cov_p_s)/(sd_points * sd_salarymiltwo)
+cor_points_salarymiltwo
+
+cor(points, salarymiltwo, use = "everything", method = c("pearson", "kendall", "spearman")) # Used cor() to confirm correlation I found manually.
+```
+\overline{x} = $$\sum_{i=1}^{n} X_i$$
+
+## 4)
+```{r}
+# Estimated slope of the regression line
+slope1 <- cor_points_salarymiltwo * (sd_salarymiltwo/sd_points)
+slope1
+```
+```{r}
+# Estimated intercept of the regression line
+intercept0 <- mean_salarymiltwo - (slope1*mean_points)
+intercept0
+```
+```{r}
+# Y-hat, or predicted values of Y
+y_hat <- intercept0 + (slope1*points)
+y_hat
+summary(y_hat)
+x_hat <- intercept0 + (slope1*salarymiltwo)
+summary(x_hat)
+```
+- The regression equation is $ yhat = b_{0}+b_{1}X$ 
+- The slope coefficient $b_{1}$ represents how many points a player needs to score in order to increase their salary.
+- The intercept term $b_{0}$ represents the minimum points a player can score in order to receive a salary.
+- The predicted salary of a player that scores:
+-- 0 points is $1.509077 million.
+-- 100 points is $2.3657567 million.
+-- 500 points is $5.7887835 million.
+-- 1000 points is $10.067567 million.
+-- 2000 points is $18.625134 million.
+-----------------------------------------
+## 5)
+```{r}
+plot(points, salary/1000000, pch = 15, col = "chartreuse", cex = 1, xlab = "points", ylab = "salary (in millions of dollars", main = "Points vs. Salary")
+abline(a = intercept0, b = slope1, col = "midnightblue", lwd = 2)
+lines(lowess(points, salarymiltwo), col = "red", lwd = 2)
+text(2500, 30, "lowess", col = "red", cex = 1)
+text(2450, 20, "regression", col = "midnightblue", cex = 1)
+```
+
+------------------------------------------
+## 6)
+```{r}
+# Regression Residuals
+# Residaul of Points
+residuals_points <- points - y_hat
+summary(residuals_points)
+
+# Residual of Salary
+residuals_salary <- salarymiltwo - x_hat
+summary(residuals_salary)
+
+# Residual Sum of Squares for Points
+RSS_points <-sum(residuals_points^2)
+RSS_points
+
+# Residual Sum of Squares for Salary in millions
+RSS_salarymiltwo <- sum(residuals_salary^2)
+RSS_salarymiltwo
+
+# Total Sum of Squares 
+TSS_salary <- sum((salarymiltwo - mean_salarymiltwo)^2)
+TSS_points <- sum((points - mean_points)^2)
+TSS_salary
+TSS_points
+
+# The coefficient of determination for Points
+R2_points <- 1-(RSS_points/TSS_points)
+R2_points
+
+# The coefficient of determination for Salary in millionis
+R2_salary <- 1-(RSS_salarymiltwo/TSS_salary)
+R2_salary
+```
+-------------------------------
+## 7)
+```{r}
+# Scatterplot of Years of Experience and Salary
+plot(experience_integer, salarymiltwo, type = "p", main = "Scatterplot of Salary and Years of Experience", xlab = "Experience in Years", ylab = "Salary in Millions of Dollars", ann = par("ann"), cex = 1, pch = 21)
+lines(loess.smooth(experience_integer, salarymiltwo, span = 2/3, degree = 1,
+    family = c("symmetric", "gaussian"), evaluation = 50), col = "red", lwd = 2)
+```
+```{r}
+# Scatterplot of Points, Experience, and Salary
+library(scatterplot3d)
+scatterplot3d(points, experience_integer, salarymiltwo, color = par("col"), pch = 1, main = "Points, Experience, and Salary Scatterplot", xlab = "Points", ylab = "Experience in years", zlab = "Salary in Millions of Dollars", scale.y = 1, col.grid = "grey")
+```
+```{r}
+# Conditional boxplot of Salary in terms of Position
+boxplot(salarymiltwo ~ position, range = 1, varwidth = TRUE, outline = TRUE, col = "papayawhip", xlab = "Position", ylab = "Salary in Millions of Dollars")
+```
+- The first plot seems to indicate that years of experience does not have anything to do with the salary. The second plot shows that in general, more years of experience does not equate to a higher salary, but that more points scored does. The last plot shows that in general, all positions are paid around the same salary.
+- Based on the scatterplots, experience seems to be somewhat related with salary, though salary is more related to points than experience.
+- Based on the boxplot, position does not seem to be related with salary.
+
+-------------------------------
+## 8)
+- Things that were hard were formating the in-text code, looking up functions I didn't know, and formating the plots.
+- One thing that was easy-ish was creating new chunks without having to press the 'insert' button.
+- This class is my first exposure to Git. I don't think I like it, mainly because I'm unsure about what I'm doing.
+- I did need help to complete this assignment. I got assistance from my friend Hannah S. who is also taking the class, and my friend Sruthi.
+- This homework took me over 8 hours to complete, spread over 3 days.
+- The most time consuming part was trying to look up functions, especially for graphing data, and trying to make it work. It was also tedious to write out each equation in parts.
+- I still do not understand how to write in-line equations.
+- The most frustrating thing about this homework was how helpless I felt. I dislike having to look up everything myself, especially since I'm not sure if I'm doing it correctly.
+- I'm very proud of my plots, especially with changing the colors/labels/shapes/etc.
+```
+
