@@ -1,0 +1,200 @@
+---
+title: "hw02-lindsay-dahlen.Rmd"
+author: "Lindsay Dahlen"
+date: "September 28, 2017"
+output: github_document
+---
+
+# Part 2
+
+```{r}
+# Base
+github <- "http://github.com/ucb-stat133/stat133-fall-2017/raw/master/"
+file <- "data/nba2017-player-statistics.csv"
+csv <- paste0(github, file)
+download.file(url = csv, destfile = "nba2017-player-statistics.csv")
+library(readr)
+
+base_csv <- read.csv(csv, colClasses = c("Player" = "character", "Team" = "character", "Experience" = "character", "Position" = "factor", "Salary" = "double"))
+str(base_csv)
+
+```
+
+```{r}
+# readr
+
+readr_csv <- read_csv(csv, col_types = cols( Player = col_character(),  Team = col_character(), Experience = col_character(), Position = col_factor(c("C", "PF", "PG", "SF", "SG")), Salary = col_double()))
+str(readr_csv)
+
+```
+
+# 3) Right after imiporting the data
+
+```{r}
+
+Experience <- base_csv[ , 4]
+Experience_integer <- replace(Experience, Experience == "R", 0)
+Experience_int <- as.integer(Experience_integer)
+
+# Help - how to make Experience_int into base_csv and readr_csv?
+```
+
+# 4) Performance of players
+
+```{r}
+# Variables of EFF
+library(dplyr)
+FGA <- base_csv[ , 12]
+FGM <- base_csv[ , 11]
+missed_fg <- FGA-FGM
+base_csv3 <- mutate(base_csv, Missed_FG = FGA - FGM)
+
+
+FTA <- base_csv[ ,18]
+FTM <- base_csv[ , 17]
+missed_ft <- FTA-FTM
+base_csv3 <- mutate(base_csv3, Missed_FT = FTA - FTM)
+
+Points3 <- base_csv[ , 13]
+Points2 <- base_csv[ , 15]
+base_csv3 <- mutate(base_csv3, PtS = (3*Points3)+(2*Points2)+FTM)
+
+OREB <- base_csv[ , 19]
+DREB <- base_csv[ , 20]
+base_csv3 <- mutate(base_csv3, REB = OREB+DREB)
+
+MIN <- base_csv[ , 10]
+GP <- base_csv[ , 8]
+base_csv3 <- mutate(base_csv3, MPG = MIN/GP)
+
+str(base_csv3)
+
+# Naming Ojbects in base_csv3
+Missed_FG <- base_csv3[ , 25]
+Missed_FT <- base_csv3[ , 26]
+PTS <- base_csv3[ , 27]
+REB <- base_csv3[ , 28]
+MPG <- base_csv3[ , 29]
+
+# Calculating EFF
+base_csv3 <- mutate(base_csv3, (PTS + REB + AST + STL + BLK - Missed_FG - Missed_FT - TO)/GP)
+EFF <- base_csv3[ , 30]
+summary(EFF)
+
+```
+
+```{r}
+# Histogram
+hist(EFF)
+
+```
+
+```{r}
+# Names of players that have a negative EFF
+
+negative_EFF <- filter(base_csv3, EFF < 0)
+negative_EFF[ , 1]
+```
+
+```{r}
+# Use the function cor() to compute the correlation coefficients between EFF and all the variables used in the EFF formula.
+PTS_cor <- cor(PTS, EFF)
+PTS_cor
+
+REB_cor <- cor(REB, EFF)
+REB_cor
+
+STL <- base_csv3[ , 22]
+STL_cor <- cor(STL, EFF)
+STL_cor
+
+AST <- base_csv3[ , 21]
+AST_cor <- cor(AST, EFF)
+AST_cor
+
+BLK <- base_csv3[ , 23]
+BLK_cor <- cor(BLK, EFF)
+BLK_cor
+
+MissedFG_cor <- cor(Missed_FG, EFF)
+MissedFG_cor <- 0-MissedFG_cor
+MissedFG_cor
+
+MissedFT_cor <- cor(Missed_FT, EFF)
+MissedFT_cor <- 0 - MissedFT_cor
+MissedFT_cor
+
+TO <- base_csv3[ , 24]
+TO_cor <- cor(TO, EFF)
+TO_cor <- 0 - TO_cor
+TO_cor
+
+EFF_cor <- data.frame(PTS_cor, REB_cor, STL_cor, AST_cor, BLK_cor, MissedFG_cor,
+                      MissedFT_cor, TO_cor)
+EFF_correlation <- c(PTS_cor, REB_cor, STL_cor, AST_cor, BLK_cor, MissedFG_cor, 
+                     MissedFT_cor, TO_cor)
+```
+
+```{r}
+#Display the computed correlations in descending order
+EFF_desc_cor <- c(PTS_cor, REB_cor, STL_cor, AST_cor, BLK_cor, MissedFT_cor, MissedFG_cor, TO_cor)
+EFF_desc_cor
+```
+
+```{r}
+# Barplot
+barplot(EFF_desc_cor, width = 1, space = NULL, main = "Correlations between Player Statistics and EFF", border = TRUE, axisnames = TRUE, col = c("lightblue", "mistyrose", "lightcyan", "lavender"), names.arg = c("PTS", "REB", "STL", "AST", "BLK", "Missed_FT", "Missed_FG", "TO")) 
+abline(a = 0, b = 0)
+
+```
+
+# 5) Efficiency and Salary
+```{r}
+library(ggplot2)
+ggplot(data = base_csv3, aes(x = EFF, y = Salary)) + geom_point(col = "darkseagreen4") + theme_minimal() + geom_smooth(method = loess)
+```
+
+- I would say that EFF is not related to Salary.
+
+```{r}
+# "Solid" Player Universe
+little_bench_time <- filter(base_csv3, MPG >= 20)
+players2 <- data.frame(little_bench_time)
+EFF_players2 <- players2[ , 30]
+Salary_players2 <- players2[ , 5]
+ggplot(data = players2, aes(x = EFF_players2, y = Salary_players2)) + geom_point(col = "thistle4") + theme_minimal() + geom_smooth(method = loess)
+cor(EFF_players2, Salary_players2)
+
+```
+
+- Among the more extablished players, EFF and Salary are not especially correlated, as their linear correlation value is around 0.53. The loess line also seems to have a wide range.
+
+# 6) Comments and Reflections
+
+- "What things were hard, even though you saw them in class/lab?"
+
+Figuring out Github is still confusing for me. Understanding how columns and data frames work is also not fully solid.
+
+- "What was easy even though we haven't done it in class/lab?"
+
+I don't think there was much here that we hadn't done in class or lab. The things I was most comfortable with were the things that I have seen already in class or lab.
+
+- "Did you need help to complete this assignment? If so, what kind of help?"
+
+The only help I used was previous lab instructions, Piazza, R Help, and various tutorials that I looked up on the internet.
+
+- "What was the most time consuming part?"
+
+The most time consuming part was calculating the EFF, expecially using the mutate function for each and every single variable. I tried to combine them at first, but I was unsuccesful.
+
+- "Was there anything that you did not understand? or fully grasped?"
+
+I'm still a little confused on how to use mutate() to create new data frames. I'm also unsure what the difference between readr and the base functions are. It doesn't seem like there are many advantages.
+
+- "Was there anything frustrating in particular?"
+
+I found that trying to manipulate the variables in the data frame was the most frustrating. I feel that it is very time consuming, and I always forget how to do it. Everytime I akea break, it seems like I have to relearn how to manipulate data frames.
+
+- "Was there anything exciting? Something that you feel proud of?"
+
+I'm super tired, so I'm not exceptionally proud of anything but I'm glad that I finally finished the homework and put my best effort into completing everything.
