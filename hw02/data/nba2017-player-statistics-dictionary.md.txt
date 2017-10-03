@@ -1,0 +1,33 @@
+# Statistics for NBA Players in 2017
+"This data contains information about basketball players, including their name, team, position, salary, and points scored, among other variables."
+'Source: www.basketball-reference.com'
+'Team link (Golden State Warriors) = http://www.basketball-reference.com/teams/GSW/2017.html'
+
+This data has 441 rows and 24 columns.
+
+Column names:
+
+- 'Player': first and last names of player
+- 'Team': 3-letter team abbreviation
+- 'Position': player's position
+- 'Experience': years of experience in NBA
+- 'Salary': player salary in dollars
+- 'Rank': rank of player in his team
+- 'Age': age of player at the start of Fevruary first of the 2017 season
+- 'GP': games played during regular season
+- 'GS': games started
+- 'MIN': minutes played during regular season
+- 'FGM': field goals made
+- 'FGA': field goal attempts
+- 'Points3': 3-point field goals
+- 'Points3_atts': 3-points field goal attempts
+- 'Points2': 2-point field goals
+- 'Points2_atts': 2-point field goal attempts
+- 'FTM': free throws made
+- 'FTA': free throw attempts
+- 'OREB': offensive rebounds
+- 'DREB': defenseive rebounds
+- 'AST': assists
+- 'STL': steals
+- 'BLK': blocks
+- 'TO': turnovers
