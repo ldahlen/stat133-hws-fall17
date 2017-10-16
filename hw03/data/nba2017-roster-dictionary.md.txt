@@ -1,0 +1,6 @@
+# Data Dictionary for nba2017-roster.csv
+
+# This data contains information about players in the NBA arranged in alphabetical order. There is also data pertaining to the players' team, position, height, weight, age, experience, and salary.
+
+# The main source is `www.basketball-reference.com`
+

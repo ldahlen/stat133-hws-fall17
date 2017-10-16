@@ -1,0 +1,27 @@
+# Data dictionary for NBA player statistics.
+
+Main source: `www.basketball-reference.com`.
+This data includes various statistics for NBA players displayed in alphabetical order of the first name.
+The data includes:
+
+- Games played
+- Minutes
+- Field goals made
+- Field goals attempted
+- Field goal percentage
+- Points 3 made
+- Points 3 attempted
+- Points 3 percentage
+- Points 2 made
+- Points 2 attempted
+- Points 2 percentage
+- Points 1 made
+- Points 1 attempted
+- Points 1 percentage
+- Offensive rebounds
+- Defensive rebounds
+- Assists
+- Steals
+- Blocks
+- Turnovers
+- Fouls

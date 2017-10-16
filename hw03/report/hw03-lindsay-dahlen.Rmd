@@ -1,0 +1,73 @@
+---
+title: "hw03-lindsay-dahlen.Rmd"
+author: "Lindsay Dahlen"
+date: "October 15, 2017"
+output: github_document
+---
+```{r}
+# Ranking by Salary
+teams_salary <- arrange(teams, desc(salary))
+head(teams_salary)
+
+salary_mean <- mean(teams_salary$salary)
+  
+## ggplot(teams_salary, aes(x = team, y = salary)) +
+  geom_bar() +
+  coord_flip() +
+  geom_hline(yintercept = salary_mean, col = "red") +
+  xlab("Team") +
+  ylab("Salary(in millions)") +
+  ggtitle("NBA Teams ranked by Total Salary", subtitle = NULL)
+
+```
+
+```{r}
+# Ranking by Points
+teams_points <- arrange(teams, desc(points))
+head(teams_points)
+
+points_mean <- mean(teams_points$points)
+
+## ggplot(teams_points, aes(x = teams, y = points)) +
+  geom_bar() +
+  coord_flip() +
+  geom_hline(yintercept = points_mean, col = "red") +
+  xlab("Total Points") +
+  ylab("Team") + 
+  ggtitle("NBA Teams ranked by Total Points", subtitle = NULL)
+
+```
+
+```{r}
+# Ranking by Efficiency
+teams_efficiency <- arrange(teams, desc(efficiency))
+head(teams_efficiency)
+
+efficiency_mean <- mean(teams_efficiency$efficiency)
+
+## ggplot(teams_efficiency, aes(x = teams, y = efficiency)) +
+  geom_bar() +
+  coord_flip() +
+  geom_hline(yintercept = efficiency_mean, col = "red") +
+  xlab("Total Efficiency") +
+  ylab("Team") + 
+  ggtitle("NBA Teams ranked by Total Efficiency", subtitle = NULL)
+
+```
+
+The tables show that Cleveland is the top team when ranked by salary and efficiency, despite not scoring the most points. It also shows that total salary is not linked to total points or total efficiency.
+
+```{r}
+# Principle Components Analysis
+pca_points3 <- prcomp(teams$points3, scale. = TRUE)
+pca_points2 <- prcomp(teams$points2, scale. = TRUE)
+pca_free_throws <- prcomp(teams$free_throws, scale. = TRUE)
+pcaprcomp(teams$off_rebounds, scale. = TRUE)
+prcomp(teams$def_rebounds, scale. = TRUE)
+prcomp(teams$assists, scale. = TRUE)
+prcomp(teams$steals, scale. = TRUE)
+prcomp(teams$blocks, scale. = TRUE)
+prcomp(teams$turnovers, scale. = TRUE)
+prcomp(teams$fouls, scale. = TRUE)
+
+```
