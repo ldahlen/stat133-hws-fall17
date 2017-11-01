@@ -1,0 +1,46 @@
+---
+title: "post01-lindsay-dahlen"
+author: "Lindsay Dahlen"
+date: "October 27, 2017"
+output: html_document
+---
+
+# Loops in R
+
+## 1) Introduction
+In R, loops are   . Loops can allow us to 
+ 
+--------------------------------------------------------------------------------------------------   
+  
+## 2) Motivation
+  
+My main motivation for investigating loops in R is because I particularly struggled on this subject in lab. I hope that by dedicating this post to loops I can better understand the theory behind them and be able to utilize them correctly. Especially since we seem to use loops in subsequent labs.
+
+--------------------------------------------------------------------------------------------------
+  
+## 3) About loops
+  
+There are three different types of loops. These are *for*, *while*, and *repeat*. 
+
+In addition to these types of loops, there are a couple of loop control statements. These are *break* and *next*. These statements allow 
+  
+--------------------------------------------------------------------------------------------------
+## 4) Example: 
+  
+  
+--------------------------------------------------------------------------------------------------
+  
+  
+## 5) Conclusion
+  
+--------------------------------------------------------------------------------------------------
+  
+## 6) References 
+
+- Programiz. "R for Loop". <https://www.programiz.com/r-programming/for-loop>
+- Programiz. "R while Loop". <https://www.programiz.com/r-programming/while-loop>
+- R for Data Science. "Iteration". <http://r4ds.had.co.nz/iteration.html>
+- Software Carpentry Foundation. "Loops in R". 2016-2017. <https://swcarpentry.github.io/r-novice-inflammation/15-supp-loops-in-depth/>
+- Tutorials Point. "R - Loops". <https://www.tutorialspoint.com/r/r_loops.htm>
+- Theuwissen, Martijn. "How to write the first for loop in R". December 2, 2015. <https://www.r-bloggers.com/how-to-write-the-first-for-loop-in-r/>
+- "18.05 R Tutorial: For Loops". <https://ocw.mit.edu/ans7870/18/18.05/s14/html/r-tut-forloop.html>
