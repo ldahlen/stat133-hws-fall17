@@ -40,5 +40,29 @@ get_range <- function(x){
 # Input: Numeric vector
 # Output: tenth percentile of vector
 get_percentile10 <- function(x){
-  quantile(x, prob = seq(0, 1, length = 10), type = 5)
+  return(quantile(x, prob = seq(0, 1, length = 11), type = 5)[2])
+}
+
+## get_percentile90 function
+# This function takes a numeric vector and computes the 90th percentile of the input vector
+# Input: Numeric vector
+# Output: 90th percentile of the vector
+get_percentile90 <- function(x){
+  return(quantile(x, prob = seq(0, 1, length = 11), type = 5)[10])
+}
+ 
+## get_quartile1 function
+# This function takes a numeric vector and computes the first quartile
+# Input: Numeric vector
+# Output: first quartile
+get_quartile1 <- function(x){
+  return(quantile(x)[2])
+}
+
+## get_quartile3 function
+# This function takes a numeric vector to compute the third quartile of the input vector
+# Input: numeric vector
+# Output: third quartile
+get_quartile3 <- function(x){
+  return(quantile(x)[4])
 }
