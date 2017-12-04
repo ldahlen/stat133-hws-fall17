@@ -1,0 +1,60 @@
+---
+title: "post02-lindsay-dahlen"
+author: "Lindsay Dahlen"
+date: "December 3, 2017"
+output: html_document
+---
+### ggvis: Visualizing data and its properties
+
+1. ggvis
+
+In this post I will talk about the data visualization package ggvis. We were required to use ggvis in our interactive shiny app as part of homework 4. I hope to expand on what exactly ggvis is and various ways you can use it, particularly in comparison to the package ggplot2. I will not be using a shiny app in this post, but will be using ggvis in Rstudio.
+
+2. Introduction
+ggvis is a package that combines the data computing power of R and the graphic rendering power of web browsers, using "Vega". (Vega is a visualization grammar, which I won't be discussing in this post). Rstudio can display ggvis because its a web browser. The graphics will display in the viewer panel.
+
+3. Set-up
+In the following examples I will be using the Iris dataset, which was created by R. A. Fisher using data collected by E. Anderson. It "iris is a data frame with 150 cases (rows) and 5 variables (columns) named *Sepal.Length*, *Sepal.Width*, *Petal.Length*, *Petal.Width*, and *Species*."
+```{r}
+# Summary of iris dataset
+summary(iris)
+head(iris)
+```
+I installed ggvis as follows:
+```{r}
+install.packages("ggvis")
+# intsall latest version
+devtools::install_github("hadley/lazyeval", build_vignettes = FALSE)
+devtools::install_github("hadley/dplyr", build_vignettes = FALSE)
+devtools::install_github("rstudio/ggvis", build_vignettes = FALSE)
+library(ggvis)
+```
+I also loaded the *dplyr* package, which is necessary to write for ggvis. Additionally, I loaded the *ggplot2* package to show comparisons between ggplot and ggvis.
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+
+4. The Basics of ggvis
+The components of ggvis include **data**, or the data frame; **layer**, or the layers of the plot componenets; **mappings**, which map between variables and aesthetics; and **~**, which are equivalent to aes mappings in ggplot2.
+
+Unlike ggplot2, ggvis uses the pipeline operator to 
+
+8. ggplot2 vs. ggvis
+
+Using ggvis is very similar to using ggplot2. There are some notable distinctions, which I will summarize as follows.
+ 
+- Faceting is not supported in ggvis. Even when it it, it does not resember faceting in ggplot2.
+- 
+
+9. Conclusion
+
+10. References
+- https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/iris.html
+- https://ggvis.rstudio.com/
+- https://cran.r-project.org/web/packages/ggvis/README.html
+- http://ggvis.rstudio.com/ggplot2.html
+- http://jimhester.github.io/ggplot2ToGgvis/
+-
+
